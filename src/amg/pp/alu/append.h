@@ -42,27 +42,44 @@
 #define amg__append_as_hdigit34(e,id,pred)   pred(,id##Y
 #define amg__append_as_hdigit35(e,id,pred)   pred(,id##Z
 
+
+// TODO: Possibly represent numbers as things like "9(0(2(1(0("
+// This allows us to easily support N-digit numbers, because we don't need to know how many digits there are.
+// It means that we wouldn't have i4.h, i8.h, i12.h, i16.h, i24.h, i32.h, i48.h, i64.h, etc,
+// each inducing a ton of maintenance burden. Instead, it's just ONE file that handles EVERYTHING.
+// That would be great!
+// And it _might_ be really fast, too: you don't need to unpack the number.
+// Just concatenate to it, provide a closing paren, and it will start expanding!
+//
+// Caveat: This representation is not "stable", and if left to expand prematurely,
+// my consume the closing parentheses of any macro expansions around it.
+// (But then, the cases where that happens seem few? Usually if there's
+// a function-like-macro to the left of it, then that macro will begin
+// expanding before the number does.)
+// Nonetheless, there are ways for it to go wrong.
+// So, we'd want to have some kind of encode/decode or pack/unpack functions
+// that can store it in a "shelf stable" form like, "9 0 2 1 0".
 #define amg__append_as_hdigit(e,id,n,pred)  amg__append_as_hdigit##n(,e##id,e##pred)
 
 #define amg__i8_append_as_hex_s2(e,id)           id
 #define amg__i8_append_as_hex_s1(e,id,d1)        amg__append_as_hdigit##d1(,e##id,amg__i8_append_as_hex_s2))
 #define amg__i8_append_as_hex_s0(e,id,d2,d1)     amg__append_as_hdigit##d2(,e##id,amg__i8_append_as_hex_s1),d1)
 #define amg__i8t_append_as_hex(e,id,expand)      amg__i8_append_as_hex_s0(,e##id,expand)
-#define amg__i8a_append_as_hex(e,id,d2,d1)       amg__i8_append_as_hex_s0(,e##id,d2,d1)
+//#define amg__i8a_append_as_hex(e,id,d2,d1)       amg__i8_append_as_hex_s0(,e##id,d2,d1)
 
 #define amg_i8_append_as_hex(e,id,tuple)         amg__i8t_append_as_hex(,e##id,amg_expand2(,tuple))
 #define amg_i8t_append_as_hex(e,id,tuple)        amg__i8t_append_as_hex(,e##id,amg_expand2(,tuple))
-#define amg_i8h_append_as_hex(e,id,h2,h1)        amg__i8a_append_as_hex(,e##id,amg_i4h1_##h2,amg_i4h1_##h1)
+#define amg_i8h_append_as_hex(e,id,args)         amg__i8t_append_as_hex(,e##id,amg__h(,amg_i4h##args))
 
 #define amg__i12_append_as_hex_s3(e,id)          id
 #define amg__i12_append_as_hex_s2(e,id,d1)       amg__append_as_hdigit##d1(,e##id,amg__i12_append_as_hex_s3))
 #define amg__i12_append_as_hex_s1(e,id,d2,d1)    amg__append_as_hdigit##d2(,e##id,amg__i12_append_as_hex_s2),d1)
 #define amg__i12_append_as_hex_s0(e,id,d3,d2,d1) amg__append_as_hdigit##d3(,e##id,amg__i12_append_as_hex_s1),d2,d1)
 #define amg__i12t_append_as_hex(e,id,expand)     amg__i12_append_as_hex_s0(,e##id,expand)
-#define amg__i12a_append_as_hex(e,id,d2,d1)      amg__i12_append_as_hex_s0(,e##id,d2,d1)
+//#define amg__i12a_append_as_hex(e,id,d3,d2,d1)   amg__i12_append_as_hex_s0(,e##id,d3,d2,d1)
 
 #define amg_i12_append_as_hex( e,id,tuple)       amg__i12t_append_as_hex(,e##id,amg_expand3(,tuple))
 #define amg_i12t_append_as_hex(e,id,tuple)       amg__i12t_append_as_hex(,e##id,amg_expand3(,tuple))
-#define amg_i12h_append_as_hex(e,id,h3,h2,h1)    amg__i12a_append_as_hex(,e##id,amg_i4h1_##h3,amg_i4h1_##h2,amg_i4h1_##h1)
+#define amg_i12h_append_as_hex(e,id,args)        amg__i12t_append_as_hex(,e##id,amg__h(,amg_i4h##args)
 
 #endif

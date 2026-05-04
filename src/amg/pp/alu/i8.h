@@ -19,7 +19,7 @@
 /* Ugh this might be doable but it's hard to figure out. */
 /* Notable difficulty: token pasting (##) doesn't work if they pass a tuple! */
 #if AMG__C99_OR_GREATER
-#define amg_i8h2_incr( h2,...)  amg__i8h2_argcheck (amg__i8incr, __VA_ARGS__)(amg_i4h1_##h2,amg_i4h1_##__VA_ARGS__)
+#define amg_i8h2_incr( h2,...)  amg__i8h2_argcheck (amg__i8incr, __VA_ARGS__)(amg__i4h##h2,amg__i4h##__VA_ARGS__)
 #define amg_i8h2_incc( h2,...)  amg__i8h2_argcheck (amg__i8incc, __VA_ARGS__)
 #define amg_i8h2c_inci(h2,...)  amg__i8h2c_argcheck(amg__i8inci, __VA_ARGS__)
 #define amg_i8t2_incr( h2,...)  amg__i8t2_argcheck (amg__i8incr0,__VA_ARGS__)
@@ -41,24 +41,24 @@
 
 #else
 
-#define amg_i8h2_incr( h2,h1)   amg__i8h2_argcheck (amg__i8incr, amg_i4h1_##h2, amg_i4h1_##h1)
-#define amg_i8h2_incc( h2,h1)   amg__i8h2_argcheck (amg__i8incc, amg_i4h1_##h2, amg_i4h1_##h1)
-#define amg_i8h2c_inci(h2,h1,c) amg__i8h2c_argcheck(amg__i8inci, amg_i4h1_##h2, amg_i4h1_##h1,c)
+#define amg_i8h2_incr( h2,h1)   amg__i8h2_argcheck (amg__i8incr, amg__i4h##h2, amg__i4h##h1)
+#define amg_i8h2_incc( h2,h1)   amg__i8h2_argcheck (amg__i8incc, amg__i4h##h2, amg__i4h##h1)
+#define amg_i8h2c_inci(h2,h1,c) amg__i8h2c_argcheck(amg__i8inci, amg__i4h##h2, amg__i4h##h1,c)
 #define amg_i8t2_incr( tuple)  amg__i8t2_argcheck (amg__i8incr0,tuple)
 
-#define amg_i8h2_decr( h2,h1)   amg__i8h2_argcheck (amg__i8decr, amg_i4h1_##h2, amg_i4h1_##h1)
-#define amg_i8h2_decc( h2,h1)   amg__i8h2_argcheck (amg__i8decc, amg_i4h1_##h2, amg_i4h1_##h1)
-#define amg_i8h2c_deci(h2,h1,c) amg__i8h2c_argcheck(amg__i8deci, amg_i4h1_##h2, amg_i4h1_##h1,c)
+#define amg_i8h2_decr( h2,h1)   amg__i8h2_argcheck (amg__i8decr, amg__i4h##h2, amg__i4h##h1)
+#define amg_i8h2_decc( h2,h1)   amg__i8h2_argcheck (amg__i8decc, amg__i4h##h2, amg__i4h##h1)
+#define amg_i8h2c_deci(h2,h1,c) amg__i8h2c_argcheck(amg__i8deci, amg__i4h##h2, amg__i4h##h1,c)
 #define amg_i8t2_decr( tuple)  amg__i8t2_argcheck (amg__i8decr0,tuple)
 
-#define amg_i8h2_add( ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8add,  amg_i4h1_##ah2, amg_i4h1_##ah1,   amg_i4h1_##bd2, amg_i4h1_##bd1)
-#define amg_i8h2_addc(ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8addc, amg_i4h1_##ah2, amg_i4h1_##ah1,   amg_i4h1_##bd2, amg_i4h1_##bd1)
-#define amg_i8h2_addi(ah2,ah1, bd2,bd1, c)  amg__i8h2h2c_argcheck(amg__i8addi, amg_i4h1_##ah2, amg_i4h1_##ah1,   amg_i4h1_##bd2, amg_i4h1_##bd1, c)
+#define amg_i8h2_add( ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8add,  amg__i4h##ah2, amg__i4h##ah1,   amg__i4h##bd2, amg__i4h##bd1)
+#define amg_i8h2_addc(ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8addc, amg__i4h##ah2, amg__i4h##ah1,   amg__i4h##bd2, amg__i4h##bd1)
+#define amg_i8h2_addi(ah2,ah1, bd2,bd1, c)  amg__i8h2h2c_argcheck(amg__i8addi, amg__i4h##ah2, amg__i4h##ah1,   amg__i4h##bd2, amg__i4h##bd1, c)
 #define amg_i8t2_add( atuple, btuple)     amg__i8t2t2_argcheck (amg__i8add0, atuple, btuple)
 
-#define amg_i8h2_sub( ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8sub,  amg_i4h1_##ah2, amg_i4h1_##ah1,   amg_i4h1_##bd2, amg_i4h1_##bd1)
-#define amg_i8h2_subc(ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8subc, amg_i4h1_##ah2, amg_i4h1_##ah1,   amg_i4h1_##bd2, amg_i4h1_##bd1)
-#define amg_i8h2_subi(ah2,ah1, bd2,bd1, c)  amg__i8h2h2c_argcheck(amg__i8subi, amg_i4h1_##ah2, amg_i4h1_##ah1,   amg_i4h1_##bd2, amg_i4h1_##bd1, c)
+#define amg_i8h2_sub( ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8sub,  amg__i4h##ah2, amg__i4h##ah1,   amg__i4h##bd2, amg__i4h##bd1)
+#define amg_i8h2_subc(ah2,ah1, bd2,bd1)     amg__i8h2h2_argcheck (amg__i8subc, amg__i4h##ah2, amg__i4h##ah1,   amg__i4h##bd2, amg__i4h##bd1)
+#define amg_i8h2_subi(ah2,ah1, bd2,bd1, c)  amg__i8h2h2c_argcheck(amg__i8subi, amg__i4h##ah2, amg__i4h##ah1,   amg__i4h##bd2, amg__i4h##bd1, c)
 #define amg_i8t2_sub( atuple, btuple)     amg__i8t2t2_argcheck (amg__i8sub0, atuple, btuple)
 #endif
 #endif
@@ -76,7 +76,7 @@
 
 #define amg_i8_to_bool(tuple)   amg__i8bool2 tuple )
 #define amg_i8t_to_bool(tuple)  amg__i8bool2 tuple )
-#define amg_i8h_to_bool(h2,h1)  amg__i8bool2(amg_i4h1_##h2, amg_i4h1_##h1))
+#define amg_i8h_to_bool(h2,h1)  amg__i8bool2(amg__i4h##h2, amg__i4h##h1))
 
 #ifndef AMG_PP_HEX_OCTETS_DISABLED
 #define amg_i8hh_to_bool(hh) \
@@ -106,10 +106,10 @@
 /// amg_pp_assert(amg_i8_eq((F,F),amg_i8_decr((0,0))))
 /// ```
 **/
-#define amg_i8_incr(tuple)     amg__i8incr0 tuple
+#define amg_i8_incr(tuple)     amg__i8incr1 tuple
 
 /** ditto */
-#define amg_i8t_incr(tuple)   amg__i8incr0 tuple
+#define amg_i8t_incr(tuple)   amg__i8incr1 tuple
 
 /** Adds 1 to a 8-bit integer directly written as hex digits.
 ///
@@ -164,35 +164,37 @@
 /// expand my_increment(,0,A)
 /// ```
 **/
-#define amg_i8h_incr(h2,h1)  amg__i8incr0(amg_i4h1_##h2, amg_i4h1_##h1)
+#define amg_i8h_incr(args)  amg__i8incr0(amg__h(,amg__i4h##args))
 
 #ifndef AMG_PP_HEX_OCTETS_DISABLED
 #define amg_i8hh_incr(hh) \
 	amg__i8incr0(amg_i8hh_##hh)
 #endif
 
-#define amg__i8incr0(d2,d1)  amg__i8nibrevtt((amg__i8incr1(d2,d1))))
-#define amg__i8incr1(d2,d1)  amg__i4_ripple1(2,d1,amg__i4_ripple1_half),d2
+#define amg__i8incr0(args)   amg__i8incr1(args)
+#define amg__i8incr1(d2,d1)  amg__i8nibrevtt((amg__i8incr2(d2,d1))))
+#define amg__i8incr2(d2,d1)  amg__i4_ripple1(2,d1,amg__i4_ripple1_half),d2
 
 /* -------======== DECR ========------- */
-#define amg_i8_decr(tuple)   amg__i8decr0 tuple
-#define amg_i8t_decr(tuple)  amg__i8decr0 tuple
-#define amg_i8h_decr(h2,h1)  amg__i8decr0(amg_i4h1_##h2, amg_i4h1_##h1)
+#define amg_i8_decr(tuple)   amg__i8decr1 tuple
+#define amg_i8t_decr(tuple)  amg__i8decr1 tuple
+#define amg_i8h_decr(args)   amg__i8decr0(amg__h(,amg__i4h##args))
 
 #ifndef AMG_PP_HEX_OCTETS_DISABLED
 #define amg_i8hh_decr(hh) \
 	amg__i8decr0(amg_i8hh_##hh)
 #endif
 
-#define amg__i8decr0(d2,d1)  amg__i8nibrevtt((amg__i8decr1(d2,d1))))
-#define amg__i8decr1(d2,d1)  amg__i4_ripple1(0,d1,amg__i4_ripple1_half),d2
+#define amg__i8decr0(args)   amg__i8decr1(args)
+#define amg__i8decr1(d2,d1)  amg__i8nibrevtt((amg__i8decr2(d2,d1))))
+#define amg__i8decr2(d2,d1)  amg__i4_ripple1(0,d1,amg__i4_ripple1_half),d2
 
 /* -------======== OR ========------- */
 #define amg_i8_or(tuple_a, tuple_b) \
 	amg__i8or0(amg__expand2 tuple_a, amg__expand2 tuple_b)
 #define amg_i8t_or(tuple_a, tuple_b) \
 	amg__i8or0(amg__expand2 tuple_a, amg__expand2 tuple_b)
-#define amg_i8h_or(ah2,ah1, bh2,bh1) amg__i8or1(amg_i4h1_##h2, amg_i4h1_##h1)
+#define amg_i8h_or(ah2,ah1, bh2,bh1) amg__i8or1(amg__i4h##h2, amg__i4h##h1)
 
 #ifndef AMG_PP_HEX_OCTETS_DISABLED
 #define amg_i8hh_or(ahh1,bhh1) \
@@ -211,7 +213,7 @@
 	amg__i8and0(amg__expand2 tuple_a, amg__expand2 tuple_b)
 #define amg_i8t_and(tuple_a, tuple_b) \
 	amg__i8and0(amg__expand2 tuple_a, amg__expand2 tuple_b)
-#define amg_i8h_and(ah2,ah1, bh2,bh1) amg__i8and1(amg_i4h1_##h2, amg_i4h1_##h1)
+#define amg_i8h_and(ah2,ah1, bh2,bh1) amg__i8and1(amg__i4h##h2, amg__i4h##h1)
 
 #ifndef AMG_PP_HEX_OCTETS_DISABLED
 #define amg_i8hh_and(ahh1,bhh1) \
@@ -231,8 +233,8 @@
 
 /* -------======== Adders and Subtractors ========------- */
 
-#define amg_i8h_add(ah2,ah1,bh2,bh1) \
-	amg__i8add1(amg_i4h1_##ah2, amg_i4h1_##ah1, amg_i4h1_##bh2, amg_i4h1_##bh1)
+#define amg_i8h_add(argsa,argsb) \
+	amg__i8add0(amg__h(,amg__i4h##argsa), amg__h(,amg__i4h##argsb))
 #define amg_i8_add(tuple_a,tuple_b) \
 	amg__i8add0(amg_expand2(,tuple_a),amg_expand2(,tuple_b))
 #define amg_i8t_add(tuple_a,tuple_b) \
@@ -248,7 +250,7 @@
 #define amg__i8add2(ad2,ad1, bd2,bd1) amg__i4add(1,ad1,bd1,amg__i4add_half) ,ad2,bd2
 
 #define amg_i8h_sub(ah2,ah1,bh2,bh1) \
-	amg__i8sub1(amg_i4h1_##ah2, amg_i4h1_##ah1, amg_i4h1_##bh2, amg_i4h1_##bh1)
+	amg__i8sub0(amg__h(,amg__i4h##argsa), amg__h(,amg__i4h##argsb))
 #define amg_i8_sub(tuple_a,tuple_b) \
 	amg__i8sub0(amg_expand2(,tuple_a),amg_expand2(,tuple_b))
 #define amg_i8t_sub(tuple_a,tuple_b) \
@@ -279,7 +281,7 @@
 ///
 /// Output is a 3-argument-tuple whose left-most digit is the carry digit.
 **/
-#define amg_i8a2c3_incr(h2,h1)   (amg__i8a2c3__incr(0,amg_i4h1_##h2,amg_i4h1_##h1))
+#define amg_i8a2c3_incr(h2,h1)   (amg__i8a2c3__incr(0,amg__i4h##h2,amg__i4h##h1))
 #define amg__i8a2c3__incr(d2,d1) amg_i8a3_incr(0,d2,d1)
 #endif
 

@@ -24,7 +24,7 @@
 /* Currently not part of the public API because it's not
 // a NOOP if it changes the format of the argument, is it?
 */
-/*#define amg_i4a1_noop(h1)  amg_i4h1_##h1*/
+/*#define amg_i4a1_noop(h1)  amg__i4h##h1*/
 #define amg__i4noop(d1)        d1
 
 // TODO: Expansion is a more generalized PP feature; it should probably live elsewhere.
@@ -145,10 +145,10 @@
 // concatenations and expansions when only one is going to get used.
 #define amg_select_16h(n,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,aA,aB,aC,aD,aE,aF) \
 	amg__select_16N(n, \
-		amg_i4h1_##a0,amg_i4h1_##a1,amg_i4h1_##a2,amg_i4h1_##a3,\
-		amg_i4h1_##a4,amg_i4h1_##a5,amg_i4h1_##a6,amg_i4h1_##a7,\
-		amg_i4h1_##a8,amg_i4h1_##a9,amg_i4h1_##aA,amg_i4h1_##aB,\
-		amg_i4h1_##aC,amg_i4h1_##aD,amg_i4h1_##aE,amg_i4h1_##aF)
+		amg__i4h##a0,amg__i4h##a1,amg__i4h##a2,amg__i4h##a3,\
+		amg__i4h##a4,amg__i4h##a5,amg__i4h##a6,amg__i4h##a7,\
+		amg__i4h##a8,amg__i4h##a9,amg__i4h##aA,amg__i4h##aB,\
+		amg__i4h##aC,amg__i4h##aD,amg__i4h##aE,amg__i4h##aF)
 #endif
 
 
@@ -190,21 +190,21 @@
 	amg__i4_ripple_lookup0(c,d,amg__i4_to_bool_table)
 
 /** Returns 0 if the given hex digit is 0. Returns 1 otherwise. */
-#define amg_i4h_to_bool(h) amg__i4_to_bool(0,amg_i4h1_##h)
+#define amg_i4h_to_bool(h) amg__i4_to_bool(0,amg__i4h##h)
 
 /** Returns 0 if the given 4-bit number is 0. Returns 1 otherwise. */
 #define amg_i4_to_bool(tuple)   (amg__i4_ripple1_half(2,amg_expand1(,tuple)))
 #define amg_i4t_to_bool(tuple)  (amg__i4_ripple1_half(2,amg_expand1(,tuple)))
 
 /** Compute the 4-bit number that results from incrementing the given hex digit by 1. */
-#define amg_i4h_incr(h1)     (amg__i4_ripple1_half(2,amg_i4h1_##h1))
+#define amg_i4h_incr(h1)     (amg__i4_ripple1_half(2,amg__i4h##h1))
 
 /** Compute the 4-bit number that results from incrementing the 4-bit number by 1. */
 #define amg_i4_incr(tuple)   (amg__i4_ripple1_half(2,amg_expand1(,tuple)))
 #define amg_i4t_incr(tuple)  (amg__i4_ripple1_half(2,amg_expand1(,tuple)))
 
 /** Compute the 4-bit number that results from decrementing the given hex digit. */
-#define amg_i4h_decr(h1)     (amg__i4_ripple1_half(0,amg_i4h1_##h1))
+#define amg_i4h_decr(h1)     (amg__i4_ripple1_half(0,amg__i4h##h1))
 
 /** Compute the 4-bit number that results from decrementing the 4-bit number by 1. */
 #define amg_i4_decr(tuple)   (amg__i4_ripple1_half(0,amg_expand1(,tuple)))
@@ -754,7 +754,7 @@
 #endif
 
 /** Compute the digit that results from incrementing the given 1-argument number. */
-//#define amg_i4h_incr(h1)      (amg__i4_ripple1_half(2,amg_i4h1_##h1))
+//#define amg_i4h_incr(h1)      (amg__i4_ripple1_half(2,amg__i4h##h1))
 //#define amg__i4incr(d1,c)      amg__i4incr2(d1,c)
 //#define amg__i4incr2(d1,c)     amg__i4_unary_op(d1,amg__i4incr_table##c)
 
@@ -763,12 +763,12 @@
 ///
 /// This can used for carry-in calculations.
 **/
-#define amg_i4h1_inci(h1,c)    (amg__i4inci(amg_i4h1_##h1,0))
+#define amg__i4hinci(h1,c)    (amg__i4inci(amg__i4h##h1,0))
 #define amg__i4inci(d1,c)      amg__i4inci2(d1,c)
 #define amg__i4inci2(d1,c)     amg__i4_unary_op(d1,amg__i4inci_table##c)
 
 /** Compute the carry digit from incrementing the given 1-argument number. */
-#define amg_i4h1_incc(h1)      (amg__i4incc(amg_i4h1_##h1,0))
+#define amg__i4hincc(h1)      (amg__i4incc(amg__i4h##h1,0))
 #define amg__i4incc(d1,c)      amg__i4incc2(d1,c)
 #define amg__i4incc2(d1,c)     amg__i4_unary_op(d1,amg__i4incc_table##c)
 #endif
@@ -776,12 +776,12 @@
 
 #if 0
 /** Compute the result of adding two 1-argument numbers. **/
-#define amg_i4a1_add(ah1,bh1)   (amg__i4add(amg_i4h1_##ah1, amg_i4h1_##bh1, 0))
+#define amg_i4a1_add(ah1,bh1)   (amg__i4add(amg__i4h##ah1, amg__i4h##bh1, 0))
 #define amg__i4add(ah1,bh1,c)   amg__i4add2(ah1,bh1,c)
 #define amg__i4add2(ah1,bh1,c)  amg__i4_binary_op(ah1,bh1,amg__i4add_table##c)
 
 /** Compute the carry digit from adding two 1-argument numbers. **/
-#define amg_i4a1_addc(ah1,bh1)  (amg__i4addc(amg_i4h1_##ah1, amg_i4h1_##bh1, 0))
+#define amg_i4a1_addc(ah1,bh1)  (amg__i4addc(amg__i4h##ah1, amg__i4h##bh1, 0))
 #define amg__i4addc(ah1,bh1,c)  amg__i4addc2(ah1,bh1,c)
 #define amg__i4addc2(ah1,bh1,c) amg__i4_binary_op(ah1,bh1,amg__i4addc_table##c)
 
