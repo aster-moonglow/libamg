@@ -2,6 +2,17 @@
 
 A library aimed at providing powerful and convenient things to ISO C89.
 
+Currently VERY new, WIP, and quite unusable.
+Consider features mentioned in this document to be PLANNED features, not available ones, even if some of them do exist in some sense.
+(We'll get there. Someday. Maybe.)
+
+## libamg/sloaf
+
+TODO: ptr+len string/array/vector abstraction over windowed buffers.
+* Currently not present in the repository.
+* It's a from-scratch rewrite+upgrade of something very (personally) successful I wrote before in a (currently) unpublished repo.
+* Draft/sketch/design code is elsewhere at the moment. (We'll get there. Someday. Maybe.)
+
 ## libamg/pp/alu
 
 Headers used to do mathematical computations using the macro preprocessor.
@@ -34,13 +45,10 @@ It is much less obvious how to write an addition macro that simply expands to th
 ```C
 #include "amg/pp/alu/add.h"
 
-#define my__stringize(expr) #expr
-#define my_stringize(expr) my__stringize(expr)
-
 int main(int argc, const char **argv)
 {
 	// Prints "3"
-	printf("%s\n", my_stringize(amgpp_add(1,2)));
+	printf("%s\n", amgpp_int_to_string(amgpp_add(1,2)));
 }
 ```
 
