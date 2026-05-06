@@ -54,3 +54,5 @@ int main(int argc, const char **argv)
 
 It is even more non-trivial to scale such an approach to large numbers, and to do so without consuming tremendous resources.
 
+So, that's exactly what this part of the library plans to offer (and has partially implemented), as reusable code.
+
