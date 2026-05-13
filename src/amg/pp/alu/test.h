@@ -1,299 +1,16 @@
 
 /* Format: (S,1,2)(3,4)
 // S is "size", number of following bytes.
-// It's 2 in this example.
+// It's 2 in above example.
 // Another example:
 //  (7,1,2)(3,4)(5,6)(7,0)
 */
-#if 0
-#define AMG_iget4(d0,d1)      d0,d1,AMG_iget2
-#define AMG_iget2(d0,d1)      d0,d1,
-#define AMG_isz(sz,d0,d1)  sz,d0,d1,
-#endif
 
-#if 0
-/* Format: (S,1)(2)(3)(4) */
-/* S is "size", number of nybbles, including the one in the first parens. */
-#define amg__iget1(h) h,
-#define AMG_iget2(h) h,amg__iget1
-#define AMG_isz(sz,h) sz,h,
-#endif
-
-#if 0
-/* Format: (S,1,(2,(3,(4,)))) */
-/* S is "size", number of nybbles in the tree, including the one to the right of `S`. */
-#define amg__iget1(h,t) h,t
-#define AMG_iget2(h,t) h,amg__iget1 t
-#define AMG_isz(sz,h,t) sz,h,t
-#endif
-
-#if 0
-#define amgf(front,list) front, amgf list
-
-#define take(elem) elem,
-#define expand(l) l
-#define foonum 1,(2,(3,(4,
-#define barnum ((((,4),3),2),1
-#define quxnum 1,)(2,)(3,)(4,
-#define quuxnum (1)(2)(3)(4)(5)(6
-#define nonononooo 1,(3,(5,),2),0
-#if 0
-#define wlw(v,q)  #v q
-#define quux(w,p) #w wlw p
-#define qux(z,w)  #z quux w
-#define baz(y,z)  #y qux z
-#define bar(x,y)  #x baz y
-#define foo(b)    #b bar b )
-
-foo(foonum)
-#endif
 
 #define print(...) #__VA_ARGS__
 
-#define amg__rparen )
-#define head(head,tail) #head
-#define tail(head,tail) tail
-//#define wind0(tt,list)  tt(,wind1,tail list)
-//#define wind1(tt,list)  tt(,wind0,tail list)
-#define amg_wind1(pfx,tt,list)  print(pfx##tt(pfx,wind0,list)) (pfx,wind0,list
-#define amg_wind0(pfx,tt,list)  print(pfx##tt(pfx,wind1,list)) (pfx,wind1,list
-#define amg_wind(pfx,tt,list)   print(pfx##tt(pfx,wind,list))  (pfx,wind,list
-
-
-#define amg_tock(pfx,fn,d,list) print(d: pfx##fn(pfx,tick,list))) pfx##tick amg_wind1(pfx,tick,take list))
-#define amg_tick(pfx,fn,d,list) print(d: pfx##fn(pfx,tock,list))) pfx##tock amg_wind0(pfx,tock,take list))
-//#define inittt(e,val) wind(tick,tail e##val))
-//#define inittt(e,val) wind(,0,e##val,tick))))
-#define inittt(e,val) print(amg_wind0(amg_,tick,0,take val))) amg_wind0(amg_,tick,take val)))))
-
-//foonum))))
-inittt(,quuxnum)
-#endif
-
-#define mynum 1)2)3)4)00)
-
-#define amg_rm1
-#define amg_rm2
-#define amg_rm3
-#define amg_rm4
-
-#define amg_id1 1
-#define amg_id2 2
-#define amg_id3 3
-#define amg_id4 4
-
-#define print(...) #__VA_ARGS__
-
-#if 0
-#define upulseB(accum,digit,inum)  print(ubeat(A,accum,digit,inum)) \
-	ubeat(A, accum,digit,inum)
-#define upulseA(accum,digit,inum)  print(ubeat(B,accum,digit,inum)) \
-	ubeat(B, accum,digit,inum)
-
-#define ubeat(ab,accum,c,d)   print(upulse##ab(accum##d,d)) \
-	c##d) upulse##ab(accum##d,d,
-
-#define uop(inum)             print(ubeat(A,0,0,inum)) \
-	ubeat(A,0,0,inum))
-
-expand uop(mynum)a
-#endif
-#if 0
-#define upulseA(accum,x,y,d)  print(ubeat(A,accum##d,x,d,...)) \
-	y##d) ubeat(A, accum##d,x,d,
-
-#define ubeat(ab,accum,y,x,d)   print(upulse##ab(accum##d,d,y,...)) \
-	x##d) upulse##ab(accum##d,d,y,
-
-#define uop(inum)             print(ubeat(A,0,0,inum)) \
-	ubeat(A,0,0,,inum))
-
-expand uop(mynum)
-#endif
-#if 0
-#define bpulseB(e,accum,c,anum,bnum)  print(bbeat(A,accum,c,e##anum,e##bnum)) \
-	bbeat(,A, accum,c,e##anum,e##bnum,bnum)
-#define bpulseA(e,accum,c,anum,bnum)  print(bbeat(B,accum,c,e##anum,e##bnum)) \
-	bbeat(,B, accum,c,e##anum,e##bnum,bnum)
-
-#define bbeat0(e,ab,accum,c,anum,bnum,bd)   print(bbeat1(,ab,accum##bd,bd,e##anum,...)) \
-	bbeat1(,ab,accum##bd,c,bd,e##bnum,anum,
-
-#define bbeat1(e,ab,accum,c,bd,bnum,ad)   print(bpulse##ab(accum##ad,ad,e##bnum) \
-	ab##bd##c) bpulse##ab(,accum##ad##bd##c,ad##bd,
-
-#define bop(e,anum,bnum)             print(bbeat0(A,0,0,e##anum,e##bnum)) \
-	bbeat(,A,0,0,e##anum,e##bnum,bnum))
-
-expand bop(,mynum,mynum)
-#endif
-
-#if 0
-#define amg__rparen16 )))) )))) )))) ))))
-#define amg__rparen15 )))) )))) )))) )))
-#define amg__rparen14 )))) )))) )))) ))
-#define amg__rparen13 )))) )))) )))) )
-#define amg__rparen12 )))) )))) ))))
-#define amg__rparen11 )))) )))) )))
-#define amg__rparen10 )))) )))) ))
-#define amg__rparen9  )))) )))) )
-#define amg__rparen8  )))) ))))
-#define amg__rparen7  )))) )))
-#define amg__rparen6  )))) ))
-#define amg__rparen5  )))) )
-#define amg__rparen4  ))))
-#define amg__rparen3  )))
-#define amg__rparen2  ))
-#define amg__rparen1  )
-#endif
-
-#if 0
-// This is where I fixed something that wasn't broken.
-// (But it could have been important for correctly naming args when using paren-trains.)
-// (And it did kinda show that intentional strat matches the accidental strat.)
-// In other words: we learned that the (sz,1)(2)(3) format has the same traversal code as the (sz,1,(2,(3,))) code.
-// And the former seems to take fewer tokens to represent, so that's what I'll go with.
-// Also, the linear form might expand faster, because the amg__iget1 function doens't
-// need to copy the entire list around in its argument list. It only needs to operate
-// on the head itself. (The stepping function still has to copy everything, but
-// doing this at least once seems to be unavoidable. Well, except for if things
-// were stored OUTSIDE the active macro, as with the "1)2)3)00)" form, but it is
-// VERY difficult to control such a thing when binary operations are involved!
-// Still, that might be an interesting challenge at some point.)
-// But this is really great.
-// Because if the linear form proves difficult to handle (hard to keep trailing bits in an argument),
-// then it is very easy to just switch back to the fallen-tree form/representation.
-#define amg__bop0(c,a0,e1a,e2a,b0,e1b,e2b,fn,fnc)			      fn(c,a0,b0)
-#define amg__bop1(c,a0,a1,ex_anum,b0,b1,ex_bnum,fn,fnc)           amg__bop0(c,a0,a1,ex_anum,b0,b1,ex_bnum,fn,fnc)
-#define amg__bop2(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop1(fnc(c,a0,b0),ex2_anum,amg__iget1 anum,ex2_bnum,amg__iget1 bnum,fn,fnc)
-#define amg__bop3(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop2(fnc(c,a0,b0),ex2_anum,AMG_iget2 anum,ex2_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop4(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop3(fnc(c,a0,b0),ex2_anum,AMG_iget2 anum,ex2_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop5(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop4(fnc(c,a0,b0),ex2_anum,AMG_iget2 anum,ex2_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop6(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop5(fnc(c,a0,b0),ex2_anum,AMG_iget2 anum,ex2_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop7(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop6(fnc(c,a0,b0),ex2_anum,AMG_iget2 anum,ex2_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop8(c,a0,a1,anum,ex2_anum,b0,b1,bnum,ex2_bnum,fn,fnc) fn(c,a0,b0) amg__bop7(fnc(c,a0,b0),ex2_anum,AMG_iget2 anum,ex2_bnum,AMG_iget2 bnum,fn,fnc)
-
-#define amg__bop_init2(asz,bsz,c,a0,anum1,a1,anum2,b0,bnum1,b1,bnum2,fn,fnc) \
-	amg__bop##asz(c,a0,a1,anum2,AMG_iget2 anum1,b0,b1,bnum2,AMG_iget2 bnum1,fn,fnc)
-//	amg__bop_init3(asz,bsz,c,a0,a1,anum1,anum2,amg__iget1 anum2,b0,b1,bnum1,bnum2,amg__iget1 bnum2,fn,fnc)
-#endif
-#if 0
-#define amg__bopi1(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  fn(c,a0,b0)
-#define amg__bopi2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  fn(c,a0,b0) amg__bop0(fnc(c,a0,b0),ex_anum1,,ex_bnum1,,fn,fnc)
-#define amg__bopi3(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-#define amg__bopi4(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-#define amg__bopi5(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-#define amg__bopi6(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-#define amg__bopi7(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-#define amg__bopi8(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-#define amg__bopi9(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)  amg__bop_init2(asz,bsz,c,a0,anum1,ex_anum1,b0,bnum1,ex_bnum1,fn,fnc)
-
-#define amg__bop0(c,a0,e1a,e2a,b0,e1b,e2b,fn,fnc)			      fn(c,a0,b0)
-#define amg__bop1(c,a0,a1,ex_anum,b0,b1,ex_bnum,fn,fnc)           amg__bop0(c,a0,a1,ex_anum,b0,b1,ex_bnum,fn,fnc)
-#define amg__bop2(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop1(fnc(c,a0,b0),ex_anum,amg__iget1 anum,ex_bnum,amg__iget1 bnum,fn,fnc)
-#define amg__bop3(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop2(fnc(c,a0,b0),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop4(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop3(fnc(c,a0,b0),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop5(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop4(fnc(c,a0,b0),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop6(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop5(fnc(c,a0,b0),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop7(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop6(fnc(c,a0,b0),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn,fnc)
-#define amg__bop8(c,a0,a1,anum,ex_anum,b0,b1,bnum,ex_bnum,fn,fnc) fn(c,a0,b0) amg__bop7(fnc(c,a0,b0),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn,fnc)
-
-#define amg__bop_init2(asz,bsz,c,a0,anum1,a1,anum2,b0,bnum1,b1,bnum2,fn,fnc) \
-	amg__bop##asz(c,a0,a1,anum2,AMG_iget2 anum1,b0,b1,bnum2,AMG_iget2 bnum1,fn,fnc)
-
-#define amg__bop_init1(c,asz,a0,anum1,bsz,b0,bnum1,fn,fnc) \
-	amg__bopi##asz(asz,bsz,c,a0,anum1,amg__iget1 anum1,b0,bnum1,amg__iget1 bnum1,fn,fnc)
-
-#define amg__bop_init0(c,ex_anum,ex_bnum,fn,fnc) \
-	amg__bop_init1(c,ex_anum,ex_bnum,fn,fnc)
-#endif
-
-#define AMG_bopi1(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  fn(c,a0,a1,b0,b1)
-#define AMG_bopi2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop2(fnc(c,a0,a1,b0,b1),a0,a1,ex_anum2,,b0,b1,ex_bnum2,,fn)
-#define AMG_bopi3(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi4(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi5(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi6(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi7(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi8(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi9(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-#define AMG_bopi10(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)  AMG_bop_init2(asz,bsz,c,a0,a1,anum2,ex_anum2,b0,b1,bnum2,ex_bnum2,fn)
-
-#define AMG_bop_next0(n)
-#define AMG_bop_next1(n)  AMG_bop##n
-#define AMG_bop_next(c,n) AMG_bop_next##c
-
-#define AMG_bop_end(cont,output)  output
-#if 0
-#define AMG_bop0(c,o,e0,e1,e2,e3,e4, e5,      e6,e7,e8,e9,e10,e11,    e12) o
-#define AMG_bop1(c,o,a0,a1,                   b0,b1,                   fn) AMG_bop_end(fn(c,a0,a1,b0,b1))
-#define AMG_bop2(c,o,a0,a1,a2,a3,a4e,a5e,     b0,b1,b2,b3,b4e,b5e,     fn) /*AMG_bop1(*/ AMG_bop_dispatch(fn,1,c,ex_anum,ex_bnum),a2,a3,b2,b3,fn)
-#define AMG_bop3(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop2(*/ AMG_bop_dispatch(fn,2,c,ex_anum,ex_bnum),ex_anum,AMG_iget2 anum,ex_bnum,AMG_iget2 bnum,fn)
-#define AMG_bop4(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop3(*/ AMG_bop_dispatch(fn,3,c,ex_anum,ex_bnum),ex_anum,AMG_iget4 anum,ex_bnum,AMG_iget4 bnum,fn)
-#define AMG_bop5(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop4(*/ AMG_bop_dispatch(fn,4,c,ex_anum,ex_bnum),ex_anum,AMG_iget4 anum,ex_bnum,AMG_iget4 bnum,fn)
-#define AMG_bop6(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop5(*/ AMG_bop_dispatch(fn,5,c,ex_anum,ex_bnum),ex_anum,AMG_iget4 anum,ex_bnum,AMG_iget4 bnum,fn)
-#define AMG_bop7(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop6(*/ AMG_bop_dispatch(fn,6,c,ex_anum,ex_bnum),ex_anum,AMG_iget4 anum,ex_bnum,AMG_iget4 bnum,fn)
-#define AMG_bop8(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop7(*/ AMG_bop_dispatch(fn,7,c,ex_anum,ex_bnum),ex_anum,AMG_iget4 anum,ex_bnum,AMG_iget4 bnum,fn)
-#define AMG_bop9(c,o,a0,a1,a2,a3,anum,ex_anum,b0,b1,b2,b3,bnum,ex_bnum,fn) /*AMG_bop8(*/ AMG_bop_dispatch(fn,8,c,ex_anum,ex_bnum),ex_anum,AMG_iget4 anum,ex_bnum,AMG_iget4 bnum,fn)
-#endif
-
-#define AMG_iget2l(d0,d1)  (d0,d1,
-#define AMG_iget2r(d0,d1)  d0,d1),
-
-#if 0
-#define AMG_bop0(c,o,e0,e1,e2,e3,e4,e5,e6)             o
-#define AMG_bop1(c,o,ex_anum,ex_bnum,fn)               AMG_bop_dispatch(fn,0,c,o,ex_anum,ex_bnum),,,,,)
-#define AMG_bop2(c,o,ex_anum,ex_bnum,fn) /*AMG_bop1(*/ AMG_bop_dispatch(fn,1,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop3(c,o,ex_anum,ex_bnum,fn) /*AMG_bop2(*/ AMG_bop_dispatch(fn,2,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop4(c,o,ex_anum,ex_bnum,fn) /*AMG_bop3(*/ AMG_bop_dispatch(fn,3,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop5(c,o,ex_anum,ex_bnum,fn) /*AMG_bop4(*/ AMG_bop_dispatch(fn,4,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop6(c,o,ex_anum,ex_bnum,fn) /*AMG_bop5(*/ AMG_bop_dispatch(fn,5,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop7(c,o,ex_anum,ex_bnum,fn) /*AMG_bop6(*/ AMG_bop_dispatch(fn,6,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop8(c,o,ex_anum,ex_bnum,fn) /*AMG_bop7(*/ AMG_bop_dispatch(fn,7,c,o,ex_anum,ex_bnum),fn)
-#define AMG_bop9(c,o,ex_anum,ex_bnum,fn) /*AMG_bop8(*/ AMG_bop_dispatch(fn,8,c,o,ex_anum,ex_bnum),fn)
-
-#define AMG_bop3init(c,anum,bnum,fn) AMG_bop3(c,,AMG_iget2 anum,AMG_iget2 bnum,fn)
-
-#define AMG_bop_dispatch(fn,n,c,o,a0,a1,anum,b0,b1,bnum) \
-	o fn(n,c,a0,a1,b0,b1),AMG_iget2 anum,AMG_iget2 bnum
-#endif
-#if 0
-// WORKING
-//#define h(d0,d1)    d0,d1
-//#define g(d0,d1,rest) rest,d0,d1
-#define AMG_e
-#define AMG_iget2a(d0,d1)     d0,d1,AMG_iget2b AMG_e
-#define AMG_iget2b(d0,d1)     d0,d1,AMG_iget2a AMG_e
-#define AMG_igetsz(sz,d0,d1)  sz,d0,d1,AMG_iget2a AMG_e
-//#define gg2          g2(
-
-//#define AMG_bop00(cont,carry,e0,e1,e2,e3,e4,e5,e6)
-//#define AMG_bop0(cont,carry,e0,e1,e2)
-#define AMG_bop00(cont,carry)
-#define AMG_bop0(cont,carry,e0,e1,e2)
-//#define AMG_bop0(cont,carry,e0,e1,e2)
-#define AMG_bop1(cont,carry,a0,a1,anum,b0,b1,bnum,fn)               fn##cont(00,carry,a0,a1,b0,b1))
-#define AMG_bop2(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop1(*/ fn##cont(1,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop3(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop2(*/ fn##cont(2,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop4(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop3(*/ fn##cont(3,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop5(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop4(*/ fn##cont(4,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop6(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop5(*/ fn##cont(5,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop7(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop6(*/ fn##cont(6,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop8(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop7(*/ fn##cont(7,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop9(cont,carry,a0,a1,anum,b0,b1,bnum,fn) /*AMG_bop8(*/ fn##cont(8,carry,a0,a1,b0,b1),anum,bnum,fn)
-
-//#define AMG_bop3init1(cont,ex_anum,ex_bnum,fn) AMG_bop3(cont,,ex_anum,ex_bnum,fn)
-//#define AMG_bop3init0(cont,anum,bnum,fn)       AMG_bop3init1(cont,AMG_iget2a anum,AMG_iget2a bnum,fn)
-
-#define AMG_bop_init1(carry,asz,a0,a1,anum,bsz,b0,b1,bnum,fn)  fn##1(asz,carry,a0,a1,b0,b1),anum,bnum,fn)
-#define AMG_bop_init0(carry,ex_anum,ex_bnum,fn)                AMG_bop_init1(carry,ex_anum,ex_bnum,fn)
-#define amg_mybop(carry,anum,bnum)                             AMG_bop_init0(carry,AMG_igetsz anum,AMG_igetsz bnum,AMG_continue)
-#endif
-
-
-
-#define AMG_stringize(token)  token
-#define AMG_stringize0(token) #token
+#define AMG_stringize(x) #x
+#define amgpp_stringize(x) AMG_stringize(x)
 
 /* TODO: Mess with Compiler Explorer (godbolt.org) and see what we can get away with. */
 #if defined(__INTEL_COMPILER) || defined(_MSC_VER) || AMG_USE_MSVC_ERROR_PRAGMA
@@ -307,7 +24,7 @@ expand bop(,mynum,mynum)
 #endif
 
 #ifdef AMG__ADD_LOC_TO_PP_ERRORS
-	#define amgpp_error(msg) AMG_error(__FILE__ "(" AMG_stringize(__LINE__) "): error: " msg)
+	#define amgpp_error(msg) AMG_error(__FILE__ "(" amgpp_stringize(__LINE__) "): error: " msg)
 #else
 	#define amgpp_error(msg) AMG_error(msg)
 #endif
@@ -397,48 +114,6 @@ expand bop(,mynum,mynum)
 #define AMG_int_width_indecr15  16,14,0,0
 #define AMG_int_width_indecr16  17,15,0,0
 
-#if 0
-#define AMG_int_width_incr0   1
-#define AMG_int_width_incr1   2
-#define AMG_int_width_incr2   3
-#define AMG_int_width_incr3   4
-#define AMG_int_width_incr4   5
-#define AMG_int_width_incr5   6
-#define AMG_int_width_incr6   7
-#define AMG_int_width_incr7   8
-#define AMG_int_width_incr8   9
-#define AMG_int_width_incr9  10
-#define AMG_int_width_incr10 11
-#define AMG_int_width_incr11 12
-#define AMG_int_width_incr12 13
-#define AMG_int_width_incr13 14
-#define AMG_int_width_incr14 15
-#define AMG_int_width_incr15 16
-#define AMG_int_width_incr16 17
-
-#define AMG_int_width_is_zero0   1
-#define AMG_int_width_is_zero1   0
-#define AMG_int_width_is_zero2   0
-#define AMG_int_width_is_zero3   0
-#define AMG_int_width_is_zero4   0
-#define AMG_int_width_is_zero5   0
-#define AMG_int_width_is_zero6   0
-#define AMG_int_width_is_zero7   0
-#define AMG_int_width_is_zero8   0
-#define AMG_int_width_is_zero9   0
-#define AMG_int_width_is_zero10  0
-#define AMG_int_width_is_zero11  0
-#define AMG_int_width_is_zero12  0
-#define AMG_int_width_is_zero13  0
-#define AMG_int_width_is_zero14  0
-#define AMG_int_width_is_zero15  0
-#endif
-
-#if 0
-#define AMG_bufsz(n) n
-#define AMG_bufsz_incr(n) AMG_int_width_incr##n
-#endif
-
 #define AMG_bool0   0
 #define AMG_bool1   1
 #define AMG_bool2   1
@@ -455,25 +130,6 @@ expand bop(,mynum,mynum)
 #define AMG_bool13  1
 #define AMG_bool14  1
 #define AMG_bool15  1
-
-#if 0
-#define AMG_is_zero0   1
-#define AMG_is_zero1   0
-#define AMG_is_zero2   0
-#define AMG_is_zero3   0
-#define AMG_is_zero4   0
-#define AMG_is_zero5   0
-#define AMG_is_zero6   0
-#define AMG_is_zero7   0
-#define AMG_is_zero8   0
-#define AMG_is_zero9   0
-#define AMG_is_zero10  0
-#define AMG_is_zero11  0
-#define AMG_is_zero12  0
-#define AMG_is_zero13  0
-#define AMG_is_zero14  0
-#define AMG_is_zero15  0
-#endif
 
 #define AMG_sign0      0
 #define AMG_sign1      0
@@ -535,14 +191,6 @@ expand bop(,mynum,mynum)
 #define AMG_i4incr12(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs)  AMG_i4incr2##co(cr,cs)
 #define AMG_i4incr20(res,sign)     0(res)
 #define AMG_i4incr21(res,sign)     1(res, AMG_sign_to_pad##sign)
-
-#if 0
-#define AMG_i4decr1(c,a0)    AMG_call(AMG_i4decr2##c,(AMG_indecr##a0))
-#define AMG_i4decr20(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs)  AMG_i4decr3##no(nres)
-#define AMG_i4decr21(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs)  AMG_i4decr3##co(cres)
-#define AMG_i4decr30(res)    0(res)
-#define AMG_i4decr31(res)    1(res,15)
-#endif
 
 #define AMG_i8incr0(carry,a0,a1) AMG_i8indecr1##carry(AMG_i8indecr2##carry,(AMG_indecr##a0)(AMG_indecr##a1))
 #define AMG_i8indecr10(fn,args)  AMG_i8indecr4(15, fn args)
@@ -735,7 +383,6 @@ expand bop(,mynum,mynum)
 */
 #define AMG_PP_OPSTATE_EARLY_MSB    1
 #define AMG_PP_OPSTATE_ITERATION    2
-//#define AMG_PP_OPSTATE_ENDSIDE_MSB  3
 #define AMG_PP_OPSTATE_HEADER_GEN   3
 
 /* AMG_PP_OPSTATE_EARLY_MSB */
@@ -755,60 +402,6 @@ expand bop(,mynum,mynum)
 		AMG_vincr_calc0##sign##carry, \
 		(AMG_indecr##a0)(AMG_indecr##a1) \
 	)
-	//(a0 a1) AMG_uop##n(1,carry,sign,buffer
-
-#if 0
-/* AMG_PP_OPSTATE_ENDSIDE_MSB */
-#define AMG_vincr_state3(n,carry,sign,buffer,bufsz,ecount,vcount,msb_lo,msb_hi) \
-	n_bytes_remaining, \
-	carry, sign, buffer, \
-	n_bytes_emitted, \
-	n_bytes_visited, \
-	a0,a1)     \
-	AMG_vincr0( \
-		n_bytes_remaining, AMG_PP_OPSTATE_ENDSIDE_MSB,  \
-		buffer, n_bytes_emitted, n_bytes_visited, n_bytes_remaining, \
-		AMG_vincr2##sign##carry, \
-		(AMG_indecr##a0)(AMG_indecr##a1)) \
-	)
-	/* AMG_vincr1##carry(AMG_PP_OPSTATE_ENDSIDE_MSB, buffer, AMG_vincr2##sign##carry,(AMG_indecr##a0)(AMG_indecr##a1)) */
-
-/* AMG_PP_OPSTATE_HEADER_GEN */
-#define AMG_vincr_state4( \
-	tail, grow, sign, buffer, \
-	new_msb0,  new_msb1,  \
-	orig_msb0, orig_msb1, \
-	is_early_finish,   \
-	n_bytes_emitted,   \
-	n_bytes_visited,   \
-	n_bytes_remaining, \
-	n_bytes_total)     \
-	AMG_vincr_header0##is_early_finish( \
-		tail, grow, sign, buffer, \
-		new_msb0,  new_msb1,  \
-		orig_msb0, orig_msb1, \
-		AMG_is_zero##n_bytes_emitted, \
-		n_bytes_emitted, \
-		n_bytes_total)
-#endif
-
-
-#if 0
-n_bytes_total = n_bytes_remaining + n_bytes_buffered + n_bytes_emitted
-n_bytes_emitted = nbytes_processed - n_bytes_buffered
-
-n_bytes_buffered = axiomatic
-
-n_bytes_emitted = n_bytes_total - (n_bytes_remaining + n_bytes_buffered)
-n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
-#endif
-
-
-/*
-#define AMG_vincr10(state,buf,fn,args)  AMG_vincr4(state, buf, 15, fn args)
-#define AMG_vincr11(state,buf,fn,args)  AMG_vincr4(state, buf,  0, fn args)
-#define AMG_vincr12(state,buf,fn,args)  AMG_vincr4(state, buf,  0, fn args)
-*/
 
 #define AMG_vincr_calc000(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs) br, b0, AMG_vincr_calc1##0##bc
 #define AMG_vincr_calc001(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs) nr, n0, AMG_vincr_calc1##0##nc
@@ -822,14 +415,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 #define AMG_vincr_calc110(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs) br, bF, bo, bc, bs
 #define AMG_vincr_calc111(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs) nr, nF, no, nc, ns
 #define AMG_vincr_calc112(br,nr,cr, bc,nc,cc, bo,no,co, b0,n0,c0, bF,nF,cF, bs,ns,cs) cr, cF, co, cc, cs
-
-#if 0 /* No longer true after splitting the state macros. */
-/* `maybe_sz` is only defined when we're in the AMG_PP_OPSTATE_HEADER_GEN state.
-// And it is defined as the size of the original number.
-// It is useful further on if we need to expand
-// a correct header after an early finish.
-*/
-#endif
 
 /* AMG_vincr0 does two things:
 // * Begins the expansion of (fn args) = AMG_vincr2##sign##carry(AMG_indecr##a0)(AMG_indecr##a1)
@@ -860,14 +445,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 
 #define AMG_vincr2(n, stopsz, muststop, buf, ecount, vcount, res0, ispad0, res1, ispad1, oflow, carry, sign) \
 	AMG_vincr3##oflow##carry(n,stopsz,muststop,buf,ecount,vcount,res0,res1,ispad0,ispad1,carry,sign)
-
-#if 0
-/* State 2 == AMG_PP_OPSTATE_ITERATION */
-/* This implies that we are in the middle of the number.
-// That makes it significant when the `carry` flag is set,
-// and insignificant when the `overflow`/`grow` flag is set.
-*/
-#endif
 
 /* Carry 0 == decrement next byte */
 #define AMG_vincr300(n,stopsz,muststop,buf,ecount,vcount,res0,res1,ispad0,ispad1,carry,sign) \
@@ -954,58 +531,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 #define AMG_vincr5b1(n,stopsz,buf,ecount,vcount,carry,sign) \
 	AMG_uop##n(0,1,sign,buf,ecount,vcount
 
-#if 0
-/* Carry 0 == decrement next byte */
-#define AMG_vincr300(n,buf,ecount,vcount,res0,res1,ispad0,ispad1,carry,sign) \
-	AMG_vincr4##ispad0##ispad1(n,buf,ecount,vcount,res0,res1,carry,sign)
-
-/* Carry 1 == rest of bytes are unaffected */
-/* (Common case) */
-#define AMG_vincr301(n,buf,ecount,vcount,res0,res1,ispad0,ispad1,carry,sign) \
-	buf(res0,res1) AMG_uop_passthrough(carry,sign,buf,vcount,vcount
-
-/* Carry 2 == increment next byte */
-#define AMG_vincr302(n,buf,ecount,vcount,res0,res1,ispad0,ispad1,carry,sign) \
-	AMG_vincr4##ispad0##ispad1(n,buf,ecount,vcount,res0,res1,carry,sign)
-
-/* TODO: This might never happen actually.
-// If a number is already minimized, then only an operation
-// that changes the sign of its byte can create the sign-and-following-bytes
-// alignment necessary to make a shrink possible.
-// Anything else won't _directly_ do that, and will,
-// at best, cause a ripple that makes another byte change sign.
-*/
-/* No-shrink-possibility cases for increment/decrement */
-/* Several things happen here:
-// * The buffer is written out (because we know those are interior bytes now, and not sign extension).
-// * The buffer is erased (now that it's been placed into the result)
-// * The `n_bytes_emitted`/`ecount` value is set to `n_bytes_visited`/`vcount` (consistent with buffer flushing)
-// * We emit the current byte
-//
-// In most cases, `buf` will actually be empty. And that's OK.
-// Then we aren't harming anything: we'll just emit a byte and move on.
-// The update to `ecount` will be important too, because we ARE emitting a byte.
-*/
-#define AMG_vincr400(n,buf,ecount,vcount,res0,res1,carry,sign) \
-	buf(res0,res1) AMG_uop##n(carry,sign,,vcount,vcount
-
-#define AMG_vincr401(n,buf,ecount,vcount,res0,res1,carry,sign) \
-	buf(res0,res1) AMG_uop##n(carry,sign,,vcount,vcount
-
-#define AMG_vincr410(n,buf,ecount,vcount,res0,res1,carry,sign) \
-	buf(res0,res1) AMG_uop##n(carry,sign,,vcount,vcount
-
-/* Shrinkage might be possible. Buffer until we're sure.
-// Things implicitly happening here:
-// * (res0,res1) is added to the buffer.
-//     If the buffer was empty, this will now be its value.
-// * Nothing is emitted into the result. (yet?)
-// * We remember the value of `n_bytes_emitted`/`ecount`
-//     from the last time that we actually emitted a byte.
-*/
-#define AMG_vincr411(n,buf,ecount,vcount,res0,res1,carry,sign) \
-	AMG_uop##n(carry,sign,buf(res0,res1),ecount,vcount
-#endif
 
 /* Shrinking case:
 //
@@ -1152,37 +677,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 	2(n_bytes_total,msb0,msb1) tail buffer
 	/* The iterator will expand pass-through bytes to the right of this expansion. */
 
-#if 0
-/* TODO: What if there is more than one byte buffered?
-//   How to emit the right ones while finding the MSB?
-//   This might be a "If you call `truncate`, you must
-//   put the new MSB at the _beginning_ of the buffer,
-//   even if that seems backwards.
-//   For now, I don't think I need truncation?
-*/
-/* Early finish: Truncation */
-/*
-// In this case, we don't emit anything beyond
-// the tail, and we retrieve our MSB from the buffer.
-//
-// (Any code calling AMG_uop_truncate should
-// place the MSB into the buffer rather than
-// emitting it at the end of the tail. This
-// allows us to place the post-truncation
-// MSB into the correct position: the header.)
-*/
-#define AMG_vincr_header02( \
-	tail, buffer, msb0, msb1, \
-	n_bytes_emitted, n_bytes_total, fn, args) \
-	AMG_vincr_truncate3(tail, AMG_ipop2 buffer)
-
-#define AMG_vincr_truncate4(tail, msb_and_buffer) \
-	AMG_vincr_truncate5(tail, msb_and_buffer)
-
-#define AMG_vincr_truncate5(tail, msb0, msb1, buffer) \
-	/* TODO: Shrinking? Detect SBR/SNR? */
-#endif
-
 #define AMG_vincr_header1( \
 	tail, buffer, emitted_no_bytes_expr, n_bytes_emitted, n_bytes_total, expr) \
 	AMG_vincr_header2( \
@@ -1298,26 +792,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 #define AMG_vincr_shrink811(lo,hi)  1(lo,hi)
 #define AMG_vincr_shrink812(lo,hi)  0(lo)
 
-#if 0
-/* Dispatch to the generator for the appropriate SBR/SNR. See table below. */
-#define AMG_vincr_shrink6(lo,hi,  lo_sign, hi_padclass) \
-	AMG_vincr_shrink6##lo_sign##hi_padclass(lo,hi)
-
-/* AMG_vincr_shrink600 -> 0b XXX0 0000 -> 0(XXX0)       e.g. `hi` is unnecessary (pos) sign extension
-// AMG_vincr_shrink601 -> 0b XXX0 XXXX -> 1(XXX0,XXXX)  e.g. `hi` is not sign extension
-// AMG_vincr_shrink602 -> 0b XXX0 1111 -> 1(XXX0,1111)  e.g. `hi` looks like sign extend, but isn't
-// AMG_vincr_shrink610 -> 0b XXX1 0000 -> 1(XXX1,0000)  e.g. `hi` looks like sign extend, but isn't
-// AMG_vincr_shrink611 -> 0b XXX1 XXXX -> 1(XXX1,XXXX)  e.g. `hi` is not sign extension
-// AMG_vincr_shrink612 -> 0b XXX1 1111 -> 0(XXX1)       e.g. `hi` is unnecessary (neg) sign extension
-*/
-#define AMG_vincr_shrink600(lo,hi)  0(lo)
-#define AMG_vincr_shrink601(lo,hi)  1(lo,hi)
-#define AMG_vincr_shrink602(lo,hi)  1(lo,hi)
-#define AMG_vincr_shrink610(lo,hi)  1(lo,hi)
-#define AMG_vincr_shrink611(lo,hi)  1(lo,hi)
-#define AMG_vincr_shrink612(lo,hi)  0(lo)
-#endif
-
 /* Growth case */
 /* Things happening here:
 // * Emit the buffer (or nothing if it's empty)
@@ -1374,47 +848,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 // for some use-cases.)
 */
 
-#if 0
-/* State 3 == AMG_PP_OPSTATE_ENDSIDE_MSB */
-#endif
-#if 0
-/* State 3 == AMG_PP_OPSTATE_HEADER_GEN */
-/* This implies that we are at the end of the number.
-// This makes it significant when the `overflow`/`grow` flag
-// is set, and insignificant when the `carry` flag is set.
-//
-// Notably, these all do the same dispatch.
-// But it saves us on expansion depth for the common
-// case of `AMG_vincr621`, so it should be worth it.
-// (Without this arrangement, the common case would
-// would require us to expand on the state code and
-// _then_ expand again on carry. For the less common
-// `63*` cases, we'll need to expand on state code
-// regardless, so it doesn't increase expansion
-// depth here. All it does is add a couple redundant
-// macro definitions, which should be fine.)
-*/
-#define AMG_vincr_header630(n,buf,tail,is_early,ecount,vcount,sz,res0,res1,ispad0,ispad1,grow,carry,sign) \
-	AMG_vincr_header7##ispad0##ispad1(n,buf,is_early,ecount,vcount,sz,res0,res1,grow,sign)
-
-#define AMG_vincr_header631(n,buf,tail,is_early,ecount,vcount,sz,res0,res1,ispad0,ispad1,grow,carry,sign) \
-	AMG_vincr_header7##ispad0##ispad1(n,buf,is_early,ecount,vcount,sz,res0,res1,grow,sign)
-
-#define AMG_vincr_header632(n,buf,tail,is_early,ecount,vcount,sz,res0,res1,ispad0,ispad1,grow,carry,sign) \
-	AMG_vincr_header7##ispad0##ispad1(n,buf,is_early,ecount,vcount,sz,res0,res1,grow,sign)
-#endif
-
-#if 0
-#define AMG_vincr4(state, buf, pad, expr) AMG_vincr5(state, buf, pad, AMG_bool##n, expr)
-#define AMG_vincr5(state, buf, pad, res0, ispad0, res1, ispad1, grow, carry, sign) \
-	AMG_vincr6##ispad0##ispad1(state,buf,pad,res0,res1,grow,carry,sign)
-#endif
-#define AMG_vincr_header700(n,buf,ecount,vcount,res0,res1,grow,sign) AMG_vincr80##grow(n,buf,ecount,vcount,res0,res1,sign)
-#define AMG_vincr_header701(n,buf,ecount,vcount,res0,res1,grow,sign) AMG_vincr80##grow(n,buf,ecount,vcount,res0,res1,sign)
-#define AMG_vincr_header710(n,buf,ecount,vcount,res0,res1,grow,sign) AMG_vincr80##grow(n,buf,ecount,vcount,res0,res1,sign)
-#define AMG_vincr_header711(n,buf,ecount,vcount,res0,res1,grow,sign) AMG_vincr81##grow(n,buf,ecount,vcount,res0,res1,sign)
-
-
 /* AMG_vincr8 conditions:
 // First 0|1:
 //     (Prev-byte's sign is 0 && this-byte is all 0s)
@@ -1424,207 +857,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 // Second 0|1:
 //     signed overflow A.K.A. "we should grow by 1 byte"
 */
-
-/* TODO: Manage buffer size. */
-/* (By convention, the buffer should begin with an integer token (edit: begin with a parenthesized integer token)
-// to indicate its size to the header-writing-code. In the meantime,
-// we have to place that integer there when we initially detect
-// a padding pattern, then increment it whenever that pattern continues.
-*/
-
-/* TODO: passthrough detection */
-/* buffer AMG_uop_passthrough( */
-
-
-/* AMG_vincr800 means we don't shrink (e.g. to remove runs of unused sign bits)
-// or expand (e.g. because we had signed overflow and need to add a new
-// sign bit to keep the sign-byte correct).
-//
-// We emit the buffer, because if we encounter anything that doesn't match
-// the "all-bits-equal-previous-sign", then we know that any preceding bytes
-// that match that pattern were not _actually_ sign bits. They were just an
-// ordinary part of the number. They will have been buffered due to the
-// suspicion, so we'll emit that buffer to make sure they are included
-// in the result number. If there is no buffer, then this won't have any
-// negative effects. For this non-shrink case, this can only do good things.
-//
-// Notably, we don't emit (res0,res1) because this is
-// in the context of AMG_PP_OPSTATE_ENDSIDE_MSB.
-// Since we're not growing, we need to put the
-// MSB into the header of the result number,
-// which happens in the next iteration.
-*/
-#define AMG_vincr800(n,buf,ecount,vcount,res0,res1,sign) \
-	buf  AMG_uop##n(0,sign,buffer,vcount,vcount
-
-/* TODO: How do we send the updated MSB to the iterator?? */
-
-/* AMG_vincr801 means we don't shrink but we DO expand (grow).
-//
-//
-*/
-#define AMG_vincr801(n,buf,ecount,vcount,res0,res1,sign) \
-
-
-0(res0)
-#define AMG_vincr810(n,buf,pad,res0,res1,c,s)  2(1,res0,res1)(pad,pad)
-#define AMG_vincr811(n,buf,pad,res0,res1,c,s) \
-	AMG_error("AMG_i8indecr811: Reached an unreachable branch in macro arithmatic increment-carry/decrement-borrow code.")
-	/* Notably, in add/subtract, the above case IS reachable. */
-	/* In that situation, it's another growth case. */
-
-/* `AMG_sign_to_pad` lookup
-//
-// These might be unintuitive, but here's how it works:
-//
-// The number concatenated onto `AMG_sign_to_pad` is the sign of the
-// _result_ of the add/increment/subtract/decrement/whatever operation.
-//
-// This table assumes that the (signed) overflow flag was 1,
-// which is the trigger for growing a variable-width-integer.
-//
-// To grow, we need to put two new nybbles into the new MSB.
-// This table returns the nybble to use for both of those.
-// (E.g. 0 for positive integers, F or 15 for negative integers.)
-//
-// Because there was signed overflow, it means that the sign
-// appended to `AMG_sign_to_pad` will be the WRONG sign:
-// it's the result of a signed overflow!
-//
-// Thus, the results returned from this will be the opposing sign.
-// This reversal is what allows numbers to have the correct sign
-// bit after they grow: the new MSB is full of sign extension
-// bits of the sign that the number would have if it didn't overflow.
-*/
-#define AMG_sign_to_pad0  15
-#define AMG_sign_to_pad1   0
-#define AMG_sign_to_pad2   0
-
-/* Rippled all the way! */
-/* In this case, we use the updated MSB.
-// The original MSB will be out-of-date.
-*/
-#define AMG_vincr_header00( \
-	tail, carry, sign, buffer, msb0, msb1, \
-	emitted_no_bytes, \
-	n_bytes_emitted,  \
-	n_bytes_total)    \
-	AMG_vincr_header1##grow( \
-		tail, AMG_sign_to_pad##sign, \
-		buffer, msb_lo, msb_hi, \
-		emitted_no_bytes, \
-		n_bytes_emitted, \
-		n_bytes_total)
-
-/* Early finish. */
-/* (Actually the common case for incrementation.)
-// In this case, we never grow, and sign doesn't matter.
-// Also, anything buffered (bytes suspected of being sign extension)
-// can be emitted, because we're still in the interior of the number,
-// so they WILL be significant and meaningful.
-//
-// Also, we will use the original MSB instead of the "new" one.
-// In fact, we won't _have_ a "new" msb, because the iterator never
-// "reached" the MSB.
-*/
-#define AMG_vincr_header01( \
-	tail, carry, sign, buffer, msb0, msb1, \
-	emitted_no_bytes, \
-	n_bytes_emitted, \
-	n_bytes_total) \
-	\
-	2(n_bytes_total,msb_lo,msb_hi) tail buffer
-	/* The iterator will expand pass-through bytes to the right of this expansion. */
-
-/* No growth; possibly even shrinking. */
-/*
-// In either case, we toss out the buffer.
-// If there's no resizing, then the buffer is empty.
-// If there IS resizing, then it's shrinking,
-// and we shrink by discarding the buffer.
-//
-// We also toss out the `sign` parameter, because
-// it's not useful for same-width and shrinking cases.
-//
-// Notably, because we may be shrinking,
-// there are EVEN MORE corner-cases.
-// This happens because the number could shrink into
-// single-byte-representation (SBR) or even single-nybble-representation (SNR).
-//
-// Note that when we've so far "emitted" zero bytes, this refers
-// to the bytes that trail the header. The header is a byte.
-// So if we've emitted zero bytes, then this is a 1-byte number.
-// Both SBR and SNR are representations for 1-byte numbers,
-// with SNR being a more specific case for even smaller numbers.
-// Thus, we can use the `emitted_no_bytes` argument to decide
-// whether we are downsizing or not.
-*/
-#define AMG_vincr_header10( \
-	tail, pad, buffer, \
-	msb_lo, msb_hi, \
-	emitted_no_bytes, \
-	n_bytes_emitted, \
-	n_bytes_total) \
-	AMG_vincr_header2##emitted_no_bytes( \
-		tail, msb_lo, msb_hi, \
-		n_bytes_emitted, \
-		n_bytes_total)
-
-/* Growth case */
-/* Optimization: We don't emit the buffer.
-// That's because the buffer will just contain sign bits,
-// which is what we're pattern-matching when filling the buffer.
-// If it were all sign bits right up to the end, then we
-// wouldn't be growing: we'd be shrinking.
-// So a non-empty buffer should never happen in the growth case.
-*/
-#define AMG_vincr_header11( \
-	tail, pad, buffer, \
-	msb_lo, msb_hi, \
-	emitted_no_bytes, \
-	n_bytes_emitted, \
-	n_bytes_total) \
-	\
-	2(AMG_int_width_incr##n_bytes_total, pad, pad) tail
-
-/* Output-is-variable-width-rep case */
-#define AMG_vincr_header20(tail, msb_lo, msb_hi, n_bytes_emitted) \
-	2(n_bytes_emitted, msb_lo, msb_hi) tail
-
-/* Output-is-SBR-or-SNR case */
-/*
-// This case notably contains a lot of extra macro expansions.
-// It's probably not very fast, at least compared to the other cases.
-// However, it should, _in principle_, be very rare. Like, probability less than 1/256.
-// And only for 2-byte variable-width integers.
-// There are only two integer values in the entire number line that can lead to this case!
-// (And only one for incrementation, and one for decrementation.)
-// So it might be possible to optimize this further, but it's not a priority right now.
-*/
-#define AMG_vincr_header21(tail, msb_lo, msb_hi, n_bytes_emitted) \
-	AMG_vincr_header3(msb_lo, msb_hi, AMG_sign##msb_lo, AMG_classify_pad##msb_hi)
-
-/* Intermediate macro used to ensure that `lo_sign` and `hi_padclass` are expanded. */
-#define AMG_vincr_header3(msb_lo, msb_hi, lo_sign, hi_padclass) \
-	AMG_vincr_header4(msb_lo, msb_hi, lo_sign, hi_padclass)
-
-/* Dispatch to the generator for the appropriate SBR/SNR. See table below. */
-#define AMG_vincr_header4(msb_lo, msb_hi, lo_sign, hi_padclass) \
-	AMG_vincr_header4##lo_sign##hi_padclass(msb_lo, msb_hi)
-
-/* AMG_vincr_header400 -> 0b XXX0 0000 -> 0(XXX0)       e.g. `hi` is unnecessary (pos) sign extension
-// AMG_vincr_header401 -> 0b XXX0 XXXX -> 1(XXX0,XXXX)  e.g. `hi` is not sign extension
-// AMG_vincr_header402 -> 0b XXX0 1111 -> 1(XXX0,1111)  e.g. `hi` looks like sign extend, but isn't
-// AMG_vincr_header410 -> 0b XXX1 0000 -> 1(XXX1,0000)  e.g. `hi` looks like sign extend, but isn't
-// AMG_vincr_header411 -> 0b XXX1 XXXX -> 1(XXX1,XXXX)  e.g. `hi` is not sign extension
-// AMG_vincr_header412 -> 0b XXX1 1111 -> 0(XXX1)       e.g. `hi` is unnecessary (neg) sign extension
-*/
-#define AMG_vincr_header400(lo,hi)  0(lo)
-#define AMG_vincr_header401(lo,hi)  1(lo,hi)
-#define AMG_vincr_header402(lo,hi)  1(lo,hi)
-#define AMG_vincr_header410(lo,hi)  1(lo,hi)
-#define AMG_vincr_header411(lo,hi)  1(lo,hi)
-#define AMG_vincr_header412(lo,hi)  0(lo)
 #endif
 
 /*
@@ -1677,17 +909,6 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 #define AMG_iget1(d0)    d0
 #define AMG_iget2(d0,d1) d0,d1
 #define AMG_ipop2(d0,d1) d0,d1,
-
-/*
-#define AMG_uop(carry_in,fn_nyb,fn_byte,num) AMG_uop_sel num ,carry_in,fn_nyb,fn_byte)
-#define AMG_uop_sel(t) AMG_uop##t
-#define AMG_uop0  AMG_uop_snr(AMG_iget1
-#define AMG_uop1  AMG_uop_sbr(AMG_iget2
-#define AMG_uop2  AMG_uop_var(AMG_igetsz
-#define AMG_uop_snr(a0,carry_in,fn_nyb,fn_byte)       fn_nyb(carry_in,a0)
-#define AMG_uop_sbr(ex_anum,carry_in,fn_nyb,fn_byte)  fn_byte##1(carry_in,a0,a1)
-#define AMG_uop_var(ex_anum,carry_in,fn_nyb,fn_byte)
-*/
 
 #define AMG_uop(istate,maxsz,carry_in,fn4,fn8,fnN,num) AMG_uop_T##num ,istate,maxsz,carry_in,fn4,fn8,fnN)
 #define AMG_uop_T0  AMG_uop_snr(AMG_iget1
@@ -1775,19 +996,9 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 #define AMG_uop2(stopsz,carry,sign,buffer,ecount,vcount,n,a0,a1,anum,next_state,fn)  fn##next_state( 1,stopsz,carry,sign,buffer,ecount,vcount,a0,a1),1,anum,2,fn)
 #define AMG_uop1(stopsz,carry,sign,buffer,ecount,vcount,n,a0,a1,anum,next_state,fn)  fn##next_state( 0,stopsz,carry,sign,buffer,ecount,vcount,a0,a1),0,anum,3,fn)
 #define AMG_uop0(stopsz,carry,sign,buffer,ecount,vcount,n,e0,  next_state,fn)        ,stopsz,carry,sign,buffer,ecount,0,,next_state
-// #define AMG_uop1(carry,sign,buffer,ecount,vcount,n,a0,a1,anum,next_state,fn)  fn##next_state( 0,carry,sign,buffer,ecount,vcount,a0,a1),AMG_int_width_incr##vcount,0,,AMG_PP_OPSTATE_HEADER_GEN,fn)
-//#define AMG_uop0(carry,sign,buffer,msb0,msb1,ecount,vcount,n,next_state,fn)   ,carry,sign,buffer,ecount,0,,next_state
-/*
-#define AMG_uop11(cont,carry,sign,buffer,a0,a1,anum,fn)               fn##cont(10,carry,sign,buffer,a0,a1),,,)
-#define AMG_uop10(cont,carry,sign,buffer,e0,e1,e2,  e3)
-#define AMG_uop0( cont,carry,sign,buffer,ex_anum,fn)                  AMG_vuop01(carry,sign,ex_anum,fn)
-#define AMG_uop01(carry,sign,a0,a1,ajunk,fn)                          fn##1(00,carry,sign,,a0,a1))
-#define AMG_uop00(cont,carry,buffer,sign)
-*/
+
 #define AMG_uop_aborted(e0,e1,e2,e3,e4)
 
-//#define AMG_AMG_iget2a
-//#define AMG_AMG_iget2b
 /* The hardcoded integer in these macros is the `is_early_finish` flag.
 // It is used to indicate whether we stopped before reaching the
 // header itself or not. In this case, we pass `1`, because these
@@ -1806,9 +1017,21 @@ n_bytes_emitted = n_bytes_total - n_bytes_remaining - n_bytes_buffered
 
 /* We don't have assertions rn. They are going to be tricky. But we can at least write down our intentions. */
 #define amgpp_testcase(expr,spc0,expect,spc1) testcase  #expr spc0 expected: expect spc1 got: expr
+
+
+
+
+
+
+
+
+
+#if 0
 AMG_uop(AMG_PP_OPSTATE_ITERATION,AMG_int_width_max,0,AMG_i4incr0,AMG_i8incr0,AMG_vincr0,0(5)) /* decr 5 -> 4 */
 AMG_uop(AMG_PP_OPSTATE_ITERATION,AMG_int_width_max,1,AMG_i4incr0,AMG_i8incr0,AMG_vincr0,0(5)) /* noop 5 -> 5 */
 AMG_uop(AMG_PP_OPSTATE_ITERATION,AMG_int_width_max,2,AMG_i4incr0,AMG_i8incr0,AMG_vincr0,0(5)) /* incr 5 -> 6 */
+#endif
+
 amgpp_testcase(amgpp_incr(1(3,6)),...........,1(4,6),...........) /* expect 1(4,6) */
 amgpp_testcase(amgpp_decr(1(3,6)),...........,1(2,6),...........) /* expect 1(2,6) */
 amgpp_testcase(amgpp_incr(1(15,7)),..........,2(1,0,0)(0,8),....) /* expect 2(1,0,0)(0,8) */
@@ -2208,31 +1431,6 @@ amg_xcat((5,1,1)(2,2)(3,3)(4,4)(5,5)(6,0), (5,8,8)(9,9)(10,10)(11,11)(12,12)(13,
 amg_xcat((5,1,1)(2,2)(3,3)(4,4)(5,5)(6,6), (5,8,8)(9,9)(10,10)(11,11)(12,12)(13,13))
 
 
-//#define num1 (4,1)(2)(3)(4)
-//#define num2 (4,5)(6)(7)(8)
-//amg_xcat(num1,num2)
-//amg_xcat((1,0), (1,8))
-//amg_xcat((2,0)(1), (2,8)(9))
-//amg_xcat((3,0)(1)(2), (3,8)(9)(10))
-//amg_xcat((4,0)(1)(2)(3), (4,8)(9)(10)(11))
-//amg_xcat((5,0)(1)(2)(3)(4), (5,8)(9)(10)(11)(12))
-//amg_xcat((6,0)(1)(2)(3)(4)(5), (6,8)(9)(10)(11)(12)(13))
-//amg_xcat((7,0)(1)(2)(3)(4)(5)(6), (7,8)(9)(10)(11)(12)(13)(14))
-//amg_xcat((8,0)(1)(2)(3)(4)(5)(6)(7), (8,8)(9)(10)(11)(12)(13)(14)(15))
-
-
-//#define num1 (4,1,(2,(3,(4,))))
-//#define num2 (4,5,(6,(7,(8,))))
-//amg_xcat((1,0,), (1,8,))
-//amg_xcat((2,0,(1,)), (2,8,(9,)))
-//amg_xcat((3,0,(1,(2,))), (3,8,(9,(10,))))
-//amg_xcat(num1,num2)
-//amg_xcat((4,0,(1,(2,(3,)))), (4,8,(9,(10,(11,)))))
-//amg_xcat((5,0,(1,(2,(3,(4,))))), (5,8,(9,(10,(11,(12,))))))
-//amg_xcat((6,0,(1,(2,(3,(4,(5,)))))), (6,8,(9,(10,(11,(12,(13,)))))))
-//amg_xcat((7,0,(1,(2,(3,(4,(5,(6,))))))), (7,8,(9,(10,(11,(12,(13,(14,))))))))
-//amg_xcat((8,0,(1,(2,(3,(4,(5,(6,(7,)))))))), (8,8,(9,(10,(11,(12,(13,(14,(15,)))))))))
-
 
 #define AMG_dtornyp0  0,0
 #define AMG_dtornyp1  1,0
@@ -2480,124 +1678,6 @@ amg_xcat((5,1,1)(2,2)(3,3)(4,4)(5,5)(6,6), (5,8,8)(9,9)(10,10)(11,11)(12,12)(13,
 #define AMG_i2add132 2
 #define AMG_i2add133 3
 
-#if 0
-/* Ripple behavior
-// 0 = unconditionally doesn't ripple
-// 1 = conditionally ripples (ripple on carry-in or borrow-out)
-// 2 = unconditionally ripples
-*/
-#define /* 0 */ AMG_i2addr000 0
-#define /* 1 */ AMG_i2addr001 0
-#define /* 2 */ AMG_i2addr002 0
-#define /* 3 */ AMG_i2addr003 1
-#define /* 1 */ AMG_i2addr010 0
-#define /* 2 */ AMG_i2addr011 0
-#define /* 3 */ AMG_i2addr012 1
-#define /* 4 */ AMG_i2addr013 2
-#define /* 2 */ AMG_i2addr020 0
-#define /* 3 */ AMG_i2addr021 1
-#define /* 4 */ AMG_i2addr022 2
-#define /* 5 */ AMG_i2addr023 2
-#define /* 3 */ AMG_i2addr030 1
-#define /* 4 */ AMG_i2addr031 2
-#define /* 5 */ AMG_i2addr032 2
-#define /* 6 */ AMG_i2addr033 2
-
-#define AMG_i2ripple0000 0,0,0
-#define AMG_i2ripple0001 0,0,0
-#define AMG_i2ripple0010 0,0,0
-#define AMG_i2ripple0011 0,0,1
-#define AMG_i2ripple0020 0,0,1
-#define AMG_i2ripple0021 0,0,1
-#define AMG_i2ripple0100 0,0,0
-#define AMG_i2ripple0101 0,0,0
-#define AMG_i2ripple0110 0,0,0
-#define AMG_i2ripple0111 0,1,1
-#define AMG_i2ripple0120 0,1,1
-#define AMG_i2ripple0121 0,1,1
-#define AMG_i2ripple0200 0,1,0
-#define AMG_i2ripple0201 0,1,0
-#define AMG_i2ripple0210 0,1,0
-#define AMG_i2ripple0211 0,1,1
-#define AMG_i2ripple0220 0,1,1
-#define AMG_i2ripple0221 0,1,1
-
-#define AMG_i2ripple1000 0,0,0
-#define AMG_i2ripple1001 0,0,0
-#define AMG_i2ripple1010 0,0,0
-#define AMG_i2ripple1011 0,0,1
-#define AMG_i2ripple1020 0,0,1
-#define AMG_i2ripple1021 0,0,1
-#define AMG_i2ripple1100 0,0,0
-#define AMG_i2ripple1101 0,0,0
-#define AMG_i2ripple1110 0,0,0
-#define AMG_i2ripple1111 1,1,1
-#define AMG_i2ripple1120 1,1,1
-#define AMG_i2ripple1121 1,1,1
-#define AMG_i2ripple1200 1,1,0
-#define AMG_i2ripple1201 1,1,0
-#define AMG_i2ripple1210 1,1,0
-#define AMG_i2ripple1211 1,1,1
-#define AMG_i2ripple1220 1,1,1
-#define AMG_i2ripple1221 1,1,1
-
-#define AMG_i2ripple2000 1,0,0
-#define AMG_i2ripple2001 1,0,0
-#define AMG_i2ripple2010 1,0,0
-#define AMG_i2ripple2011 1,0,1
-#define AMG_i2ripple2020 1,0,1
-#define AMG_i2ripple2021 1,0,1
-#define AMG_i2ripple2100 1,0,0
-#define AMG_i2ripple2101 1,0,0
-#define AMG_i2ripple2110 1,0,0
-#define AMG_i2ripple2111 1,1,1
-#define AMG_i2ripple2120 1,1,1
-#define AMG_i2ripple2121 1,1,1
-#define AMG_i2ripple2200 1,1,0
-#define AMG_i2ripple2201 1,1,0
-#define AMG_i2ripple2210 1,1,0
-#define AMG_i2ripple2211 1,1,1
-#define AMG_i2ripple2220 1,1,1
-#define AMG_i2ripple2221 1,1,1
-#endif
-
-#if 0
-#define /* 0 */ AMG_i2addc000 0
-#define /* 1 */ AMG_i2addc001 0
-#define /* 2 */ AMG_i2addc002 0
-#define /* 3 */ AMG_i2addc003 0
-#define /* 1 */ AMG_i2addc010 0
-#define /* 2 */ AMG_i2addc011 0
-#define /* 3 */ AMG_i2addc012 0
-#define /* 4 */ AMG_i2addc013 1
-#define /* 2 */ AMG_i2addc020 0
-#define /* 3 */ AMG_i2addc021 0
-#define /* 4 */ AMG_i2addc022 1
-#define /* 5 */ AMG_i2addc023 1
-#define /* 3 */ AMG_i2addc030 0
-#define /* 4 */ AMG_i2addc031 1
-#define /* 5 */ AMG_i2addc032 1
-#define /* 6 */ AMG_i2addc033 1
-
-#define /* 1 */ AMG_i2addc100 0
-#define /* 2 */ AMG_i2addc101 0
-#define /* 3 */ AMG_i2addc102 0
-#define /* 4 */ AMG_i2addc103 1
-#define /* 2 */ AMG_i2addc110 0
-#define /* 3 */ AMG_i2addc111 0
-#define /* 4 */ AMG_i2addc112 1
-#define /* 5 */ AMG_i2addc113 1
-#define /* 3 */ AMG_i2addc120 0
-#define /* 4 */ AMG_i2addc121 1
-#define /* 5 */ AMG_i2addc122 1
-#define /* 6 */ AMG_i2addc123 1
-#define /* 4 */ AMG_i2addc130 1
-#define /* 5 */ AMG_i2addc131 1
-#define /* 6 */ AMG_i2addc132 1
-#define /* 7 */ AMG_i2addc133 1
-#endif
-
-
 #define AMG_i2incr00 0
 #define AMG_i2incr01 1
 #define AMG_i2incr02 2
@@ -2626,10 +1706,6 @@ amg_xcat((5,1,1)(2,2)(3,3)(4,4)(5,5)(6,6), (5,8,8)(9,9)(10,10)(11,11)(12,12)(13,
 
 #define AMG_i8add0(n,c, a0,a1, b0,b1) \
 	AMG_i8add4(n,AMG_i8add3_0##c,AMG_i8add2(c, a0,a1,b0,b1))
-	//AMG_i8add2(n,c,a0,a1,b0,b1)
-
-//#define AMG_i8add1(n,c, a0,a1, b0,b1) \
-//	AMG_i8add4(n,AMG_i8add3_0##c,AMG_i8add2(c, a0,a1,b0,b1))
 
 #define AMG_i8add2(c, \
 	nypa0, nypa1, nypa2, nypa3, \
@@ -2644,17 +1720,6 @@ amg_xcat((5,1,1)(2,2)(3,3)(4,4)(5,5)(6,6), (5,8,8)(9,9)(10,10)(11,11)(12,12)(13,
 		AMG_i2add0##nypa2##nypb2, \
 		AMG_i2add0##nypa3##nypb3)
 */
-#if 0
-#define AMG_reify(id) id
-#define AMG_i8add3_00(nypn,nypc,nc,cc,no,co) nypn, AMG_i8add3_1(nc,
-#define AMG_i8add3_01(nypn,nypc,nc,cc,no,co) nypc, AMG_i8add3_1(cc,
-#define AMG_i8add3_10(nypn,nypc,nc,cc,no,co) nypn, AMG_i8add3_2(nc,
-#define AMG_i8add3_11(nypn,nypc,nc,cc,no,co) nypc, AMG_i8add3_2(cc,
-#define AMG_i8add3_20(nypn,nypc,nc,cc,no,co) nypn, AMG_i8add3_3(nc,
-#define AMG_i8add3_21(nypn,nypc,nc,cc,no,co) nypc, AMG_i8add3_3(cc,
-#define AMG_i8add3_30(nypn,nypc,nc,cc,no,co) nypn, nc, no
-#define AMG_i8add3_31(nypn,nypc,nc,cc,no,co) nypc, cc, co
-#endif
 
 #define AMG_i8add3_00(nypn,nypc,nc,cc,no,co) nypn, AMG_i8add3_1##nc
 #define AMG_i8add3_01(nypn,nypc,nc,cc,no,co) nypc, AMG_i8add3_1##cc
