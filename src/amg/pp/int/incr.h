@@ -675,20 +675,21 @@
 	/* The iterator will expand pass-through bytes to the right of this expansion. */
 
 #define AMG_vincr_header1( \
-	tail, buffer, emitted_no_bytes_expr, n_bytes_emitted, n_bytes_total, expr) \
+	tail, buffer, n_bytes_emitted_indecr_expr, n_bytes_emitted, n_bytes_total, expr) \
 	AMG_vincr_header2( \
-		tail, buffer, emitted_no_bytes_expr, n_bytes_emitted, n_bytes_total, expr)
+		tail, buffer, n_bytes_emitted_indecr_expr, n_bytes_emitted, n_bytes_total, expr)
 
+/* nbe = n_bytes_emitted */
 #define AMG_vincr_header2( \
 	tail, buffer, \
-	enb_incr, enb_decr, enb_is_zero, enb_was_zero, \
+	nbe_incr, nbe_decr, nbe_is_zero, nbe_was_zero, \
 	n_bytes_emitted, n_bytes_total, \
 	res0, ispad0, res1, ispad1, grow, carry, sign) \
 	AMG_vincr_header3##grow( \
 		tail, AMG_sign_to_pad##sign, \
 		buffer, res0, res1,  \
 		ispad0, ispad1,      \
-		enb_is_zero,         \
+		nbe_was_zero,        \
 		n_bytes_emitted,     \
 		n_bytes_total)
 
@@ -809,8 +810,24 @@
 #define AMG_vincr_header31( \
 	tail, pad, buffer, msb0,msb1, ispad0,ispad1, \
 	emitted_no_bytes, n_bytes_emitted, n_bytes_total) \
-	\
-	2(AMG_int_width_incr##n_bytes_total, pad, pad) tail buffer(msb0,msb1)
+	AMG_vincr_grow4( \
+		tail, pad, buffer, msb0,msb1, \
+		AMG_int_width_indecr##n_bytes_total)
+
+#define AMG_vincr_grow4( \
+	tail, pad, buffer, msb0,msb1, \
+	n_bytes_total_indecr_expr) \
+	AMG_vincr_grow5( \
+		tail, pad, buffer, msb0,msb1, \
+		n_bytes_total_indecr_expr)
+
+/* nbt = n_bytes_total */
+#define AMG_vincr_grow5( \
+	tail, pad, buffer, msb0,msb1, \
+	nbt_incr, nbt_decr, nbt_is_zero, nbt_was_zero) \
+	2(nbt_incr, pad, pad) tail buffer(msb0,msb1)
+
+	/*2(AMG_int_width_incr##n_bytes_total, pad, pad) tail buffer(msb0,msb1)*/
 	/*AMG_vincr_grow4##ispad0##ispad1( \
 		tail, buffer, msb0,msb1, emitted_no_bytes, n_bytes_emitted, n_bytes_total)*/
 
