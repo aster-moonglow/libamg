@@ -1,0 +1,3 @@
+
+# .gch = GCC precompiled header
+*.gch
